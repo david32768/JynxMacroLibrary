@@ -9,7 +9,7 @@ import static com.github.david32768.jynxfor.ops.LabelOps.*;
 import static com.github.david32768.jynxmacrolibrary.ops.JavaCallOps.*;
 
 import com.github.david32768.jynxfor.ops.JynxOp;
-import com.github.david32768.jynxfor.ops.JynxOps;
+import com.github.david32768.jynxfor.ops.LineOp;
 import com.github.david32768.jynxfor.ops.MacroOp;
 import com.github.david32768.jynxfor.ops.MessageOp;
 import com.github.david32768.jynxfor.ops.SelectOp;
@@ -17,12 +17,9 @@ import com.github.david32768.jynxfor.ops.UntypedOps;
 
 import com.github.david32768.jynxfree.jvm.Feature;
 
-import com.github.david32768.jynxfree.jvm.JvmVersionRange;
-
-
 public enum ExtendedOps implements MacroOp {
 
-    ext_invokenonvirtual(Feature.invokenonvirtual,
+    ext_invokenonvirtual(LineOp.checkVersion(Feature.invokenonvirtual),
             MessageOp.unsupportedMacro("use invokespecial"),
             asm_invokespecial),
     
@@ -123,26 +120,14 @@ public enum ExtendedOps implements MacroOp {
     ;
     
     private final JynxOp[] jynxOps;
-    private final Feature feature;
 
     private ExtendedOps(JynxOp... jops) {
         this.jynxOps = jops;
-        this.feature = null;
-    }
-
-    private ExtendedOps(Feature feature, JynxOp... jops) {
-        this.jynxOps = jops;
-        this.feature = feature;
     }
 
     @Override
     public JynxOp[] getJynxOps() {
         return jynxOps;
-    }
-
-    @Override
-    public JvmVersionRange range() {
-        return feature == null? JynxOps.range(this): feature.range();
     }
 
     @Override

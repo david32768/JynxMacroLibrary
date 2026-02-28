@@ -9,7 +9,6 @@ import com.github.david32768.jynxfor.ops.JynxOp;
 import com.github.david32768.jynxfor.ops.MacroOp;
 
 import com.github.david32768.jynxfree.jvm.Feature;
-import com.github.david32768.jynxfree.jvm.JvmVersionRange;
 
 public enum JavaCallOps implements MacroOp {
 
@@ -86,21 +85,17 @@ public enum JavaCallOps implements MacroOp {
     ;
 
 
-    private final CallOp callop;
+    private final MacroOp callop;
 
-    private JavaCallOps(Class<?> klass,String method,String type) {
-        this(klass,method,type,Feature.unlimited);
+    private JavaCallOps(Class<?> klass,String method,String desc) {
+        this(klass,method,desc,Feature.unlimited);
     }
 
     private JavaCallOps(Class<?> klass, String methodname, String desc, Feature feature) {
-        this.callop = CallOp.of(klass, methodname, desc, feature);
+        this.callop = CallOp.ofStatic(klass, methodname, desc, feature);
     }
 
-    @Override
-    public JvmVersionRange range() {
-        return callop.range();
-    }
-
+    
     @Override
     public String toString() {
         return name().substring(4);
